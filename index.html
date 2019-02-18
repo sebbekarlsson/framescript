@@ -1,8 +1,17 @@
 
-<div id="component__base">
+<div id="component__base" style="
+        background-color: rgb(48, 48, 48);
+        color: white;
+        font-family: Sans-Serif;
+        display: inline-block;
+        text-align: center;
+    ">
 <pre id="component__base__attribute__data"></pre>
-<component name="btn">
-<button id="component__btn">Update</button>
+<component name="btn_decrease">
+<button id="component__btn_decrease">Decrease</button>
+</component>
+<component name="btn_increase">
+<button id="component__btn_increase">Increase</button>
 </component>
 </div>
 
@@ -21,14 +30,32 @@ var component__base = new function() {
 
     };
     this.init();
-    var component__btn = new function() {
+    var component__btn_increase = new function() {
 
 
-        _this.element = document.getElementById('component__base');
+        _this.element = document.getElementById('component__btn_increase');
 
         _this.element.addEventListener('click', function(e) {
 
             _this.state['data'] = _this.state['data'] + 1;;
+            var _keys = Object.keys(_this.state);
+            for (var i = 0; i < _keys.length; i++) {
+                var k = _keys[i];
+                var query = 'component__base__attribute__' + k;
+                var element = document.getElementById(query);
+                element.innerHTML = _this.state[k];
+            };
+
+        });
+    }
+    var component__btn_decrease = new function() {
+
+
+        _this.element = document.getElementById('component__btn_decrease');
+
+        _this.element.addEventListener('click', function(e) {
+
+            _this.state['data'] = _this.state['data'] - 1;;
             var _keys = Object.keys(_this.state);
             for (var i = 0; i < _keys.length; i++) {
                 var k = _keys[i];

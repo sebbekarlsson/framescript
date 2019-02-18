@@ -67,7 +67,13 @@ class Transpiler(object):
 
         for s in self.styles:
             soup = BeautifulSoup(self.out_html, 'html.parser')
-            el = soup.find('component', {'name': s['name']}).find_all()[0]
+            el = soup.find('component', {'name': s['name']})
+
+            if not el:
+                el = soup.find(id='component__' + s['name'])
+            else:
+                el = el.find_all()[0]
+
             el['style'] = self.visit_template_string(
                 s['style'].template_string)
             self.out_html = str(soup)
