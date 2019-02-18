@@ -1,0 +1,43 @@
+
+<div id="component__base">
+<pre id="component__base__attribute__data"></pre>
+<component name="btn">
+<button id="component__btn">Update</button>
+</component>
+</div>
+
+<script>
+var component__base = new function() {
+
+    var _this = this;
+    _this.state = {};
+
+
+    _this.element = document.getElementById('component__base');
+
+    this.init = function() {
+
+        _this.state['data'] = 0;
+
+    };
+    this.init();
+    var component__btn = new function() {
+
+
+        _this.element = document.getElementById('component__base');
+
+        _this.element.addEventListener('click', function(e) {
+
+            _this.state['data'] = _this.state['data'] + 1;;
+            var _keys = Object.keys(_this.state);
+            for (var i = 0; i < _keys.length; i++) {
+                var k = _keys[i];
+                var query = 'component__base__attribute__' + k;
+                var element = document.getElementById(query);
+                element.innerHTML = _this.state[k];
+            };
+
+        });
+    }
+}
+</script>
