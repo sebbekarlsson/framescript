@@ -3,7 +3,7 @@
 
 ## Example
 > The following code:
-```javascript
+```elm
 component[base] {
     style <%
         background-color: rgb(48, 48, 48);
