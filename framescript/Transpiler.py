@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from jinja2 import Template
-from jscomp.utils import get_outer_component
+from framescript.utils import get_outer_component
 
 
 COMPONENT_TEMPLATE = Template(open(

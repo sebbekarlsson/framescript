@@ -1,11 +1,11 @@
-from jscomp.ast.TemplateString import TemplateString
-from jscomp.ast.EventListener import EventListener
-from jscomp.ast.StateChanged import StateChanged
-from jscomp.ast.Constructor import Constructor
-from jscomp.ast.Component import Component
-from jscomp.ast.Compound import Compound
-from jscomp.ast.Render import Render
-from jscomp.ast.Style import Style
+from framescript.ast.TemplateString import TemplateString
+from framescript.ast.EventListener import EventListener
+from framescript.ast.StateChanged import StateChanged
+from framescript.ast.Constructor import Constructor
+from framescript.ast.Component import Component
+from framescript.ast.Compound import Compound
+from framescript.ast.Render import Render
+from framescript.ast.Style import Style
 
 
 class UnexpectedTokenException(Exception):

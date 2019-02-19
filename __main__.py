@@ -1,6 +1,6 @@
-from jscomp.Lexer import Lexer
-from jscomp.Parser import Parser
-from jscomp.Transpiler import Transpiler
+from framescript.Lexer import Lexer
+from framescript.Parser import Parser
+from framescript.Transpiler import Transpiler
 
 import sys
 import jsbeautifier

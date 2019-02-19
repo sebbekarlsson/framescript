@@ -1,4 +1,4 @@
-from jscomp.utils import get_outer_component
+from framescript.utils import get_outer_component
 
 
 class Render(object):

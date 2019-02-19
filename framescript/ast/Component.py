@@ -1,4 +1,4 @@
-from jscomp.utils import get_random_hash
+from framescript.utils import get_random_hash
 
 
 class Component(object):

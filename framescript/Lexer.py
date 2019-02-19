@@ -1,4 +1,4 @@
-from jscomp.Token import Token
+from framescript.Token import Token
 
 
 class Lexer(object):
