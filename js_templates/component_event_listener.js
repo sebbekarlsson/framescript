@@ -3,6 +3,7 @@ _this.element.addEventListener('{{event_name}}', function({{ variable_name }}) {
     {{ code }}
     var _new_state = _this.state;
 
-    if (JSON.stringify(_old_state) != JSON.stringify(_new_state))
-        _this.stateChanged(_new_state);
+    if (typeof _this.stateChanged != 'undefined')
+        if (JSON.stringify(_old_state) != JSON.stringify(_new_state) && _this.stateChanged)
+            _this.stateChanged(_new_state);
 });

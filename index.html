@@ -1,16 +1,17 @@
 
-         <div class=MTU1MDU3NzAwNzkwMg id=component__base style="
-        background-color: rgb(48, 48, 48);
-        color: white;
-        font-family: Sans-Serif;
-        display: inline-block;
-        text-align: center;
-    "> <pre class=MTU1MDU3NzAwNzkwMg-data element=data></pre> <component name=btn_decrease> <button class=MTU1MDU3NzAwNzgyMw id=component__btn_decrease>Decrease</button> </component> <component name=btn_increase> <button class=MTU1MDU3NzAwNzcyMA id=component__btn_increase>Increase</button> </component> </div> 
+         <div class=MTU1MDU3Nzc3OTYwMA id=component__base> <component name=myinput> <input class=MTU1MDU3Nzc3OTEwMDE id=component__myinput style="
+            box-sizing: border-box;
+            padding: 0.5rem;
+            border-radius: 8px;
+            font-size: 100%;
+            font-family: Sans-Serif;
+            font-weight: 600;
+        "> </component> <component name=view> <div class=MTU1MDU3Nzc3OTYyMQ id=component__view> <div class=MTU1MDU3Nzc3OTYyMQ-text element=text></div> </div> </component> </div> 
         <script>var component__base=new function(){var _this=this;_this.state={};this.elements={}
-this.elements['data']=document.querySelector('.MTU1MDU3NzAwNzkwMg-data');this.getElement=function(name){return this.elements[name];}
-_this.element=document.getElementById('component__base');this.init=function(){_this.state['data']=0;};this.init();var component__btn_increase=new function(){this.getElement=function(name){return this.elements[name];}
-_this.element=document.getElementById('component__btn_increase');_this.element.addEventListener('click',function(e){var _old_state=JSON.parse(JSON.stringify(_this.state));_this.state['data']=_this.state['data']+1;;var _new_state=_this.state;if(JSON.stringify(_old_state)!=JSON.stringify(_new_state))
-_this.stateChanged(_new_state);});};var component__btn_decrease=new function(){this.getElement=function(name){return this.elements[name];}
-_this.element=document.getElementById('component__btn_decrease');_this.element.addEventListener('click',function(e){var _old_state=JSON.parse(JSON.stringify(_this.state));_this.state['data']=_this.state['data']-1;;var _new_state=_this.state;if(JSON.stringify(_old_state)!=JSON.stringify(_new_state))
-_this.stateChanged(_new_state);});};_this.stateChanged=function(state){_this.getElement('data').innerHTML=state['data'];};};</script>
+this.elements['text']=document.querySelector('.MTU1MDU3Nzc3OTYyMQ-text');this.getElement=function(name){return this.elements[name];}
+_this.element=document.getElementById('component__base');var component__myinput=new function(){this.getElement=function(name){return this.elements[name];}
+_this.element=document.getElementById('component__myinput');_this.element.addEventListener('keyup',function(e){var _old_state=JSON.parse(JSON.stringify(_this.state));_this.state.text=e.target.value;;var _new_state=_this.state;if(typeof _this.stateChanged!='undefined')
+if(JSON.stringify(_old_state)!=JSON.stringify(_new_state)&&_this.stateChanged)
+_this.stateChanged(_new_state);});};var component__view=new function(){this.getElement=function(name){return this.elements[name];}
+_this.element=document.getElementById('component__view');_this.stateChanged=function(state){_this.getElement('text').innerHTML=state['text']};};};</script>
     
