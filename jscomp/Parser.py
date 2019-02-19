@@ -1,5 +1,6 @@
-from jscomp.ast.EventListener import EventListener
 from jscomp.ast.TemplateString import TemplateString
+from jscomp.ast.EventListener import EventListener
+from jscomp.ast.StateChanged import StateChanged
 from jscomp.ast.Constructor import Constructor
 from jscomp.ast.Component import Component
 from jscomp.ast.Compound import Compound
@@ -61,6 +62,20 @@ class Parser(object):
         return Constructor(
             template_string=template_string, component=component)
 
+    def parse_state_changed(self, component):
+        self.eat('ID')  # stateChanged
+        self.eat('ID')  # as
+        variable_name = self.current_token.value
+        self.eat('ID')  # name
+        template_string = TemplateString(self.current_token.value)
+        self.eat('TEMPLATE_STRING')
+
+        return StateChanged(
+            variable_name=variable_name,
+            template_string=template_string,
+            component=component
+        )
+
     def parse_render(self, component):
         self.eat('ID')
         template_string = TemplateString(self.current_token.value)
@@ -92,6 +107,8 @@ class Parser(object):
                 return self.parse_style(component)
             elif self.current_token.value == 'constructor':
                 return self.parse_constructor(component)
+            elif self.current_token.value == 'stateChanged':
+                return self.parse_state_changed(component)
             elif self.current_token.value == 'component':
                 return self.parse_component(component)
             else:

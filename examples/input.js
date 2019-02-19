@@ -19,9 +19,13 @@ component[base] {
     };
 
     component[view] {
+        stateChanged as state <%
+            me.getElement('text').innerHTML = state['text']
+        %>;
+
         render <%
             <div>
-                <div sync="text"></div>
+                <div element="text"></div>
             </div>
         %>;
     };

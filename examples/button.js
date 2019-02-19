@@ -31,9 +31,13 @@ component[base] {
         %>;
     };
 
+    stateChanged as state <%
+        me.getElement('data').innerHTML = state['data'];    
+    %>;
+
     render <%
         <div>
-            <pre sync='data'></pre>
+            <pre element='data'></pre>
             <component name='btn_decrease'/>
             <component name='btn_increase'/>
         </div>

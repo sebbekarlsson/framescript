@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from jinja2 import Template
+from jscomp.utils import get_outer_component
 
 
 COMPONENT_TEMPLATE = Template(open(
@@ -8,23 +9,8 @@ COMPONENT_EVENT_LISTENER_TEMPLATE = Template(open(
     'js_templates/component_event_listener.js').read())
 COMPONENT_CONSTRUCTOR_TEMPLATE = Template(open(
     'js_templates/component_constructor.js').read())
-
-DATA_SYNC = '''
-    var _keys = Object.keys(_this.state);
-    for (var i = 0; i < _keys.length; i++) {
-        var k = _keys[i];
-        var query = 'component__COMPONENT_NAME__attribute__' + k;
-        var element = document.getElementById(query);
-        element.innerHTML = _this.state[k];
-    };
-'''
-
-
-def get_outer_component(component):
-    if component.component:
-        return get_outer_component(component.component)
-    else:
-        return component
+COMPONENT_STATE_CHANGED_TEMPLATE = Template(open(
+    'js_templates/component_stateChanged.js').read())
 
 
 class Transpiler(object):
@@ -48,6 +34,8 @@ class Transpiler(object):
             return self.visit_style(node)
         elif _name == 'Constructor':
             return self.visit_constructor(node)
+        elif _name == 'StateChanged':
+            return self.visit_state_changed(node)
         elif _name == 'TemplateString':
             return self.visit_template_string(node)
         elif _name == 'Render':
@@ -103,11 +91,7 @@ class Transpiler(object):
         return COMPONENT_EVENT_LISTENER_TEMPLATE.render(
             event_name=event_listener.event_name,
             variable_name=event_listener.variable_name,
-            code=self.visit(event_listener.template_string) + ';' +
-            DATA_SYNC.replace(
-                'COMPONENT_NAME',
-                get_outer_component(event_listener.component).name
-            )
+            code=self.visit(event_listener.template_string) + ';'
         )
 
     def visit_template_string(self, template_string):
@@ -122,6 +106,12 @@ class Transpiler(object):
             code=self.visit_template_string(constructor.template_string)
         )
 
+    def visit_state_changed(self, state_changed):
+        return COMPONENT_STATE_CHANGED_TEMPLATE.render(
+            variable_name=state_changed.variable_name,
+            code=self.visit_template_string(state_changed.template_string)
+        )
+
     def visit_render(self, render, ret=False):
         if render.component.component and not ret:
             self.pre.append(dict(name=render.component.name, render=render))
@@ -131,17 +121,17 @@ class Transpiler(object):
         soup = BeautifulSoup(html, 'html.parser')
         tags = soup.findAll()
         component = render.component
-        component_name = get_outer_component(render.component).name
 
         for tag in tags:
-            sync = tag.get('sync')
+            element = tag.get('element')
 
-            if sync:
-                tag['id'] = 'component__' + component_name +\
-                    '__attribute__' + sync
-                del tag['sync']
+            if element:
+                tag['class'] = tag.get('class', ' ') + component.hashname\
+                    + '-' + element
 
         tags[0]['id'] = 'component__' + component.name
+        tags[0]['class'] = tags[0].get('class', '') + ' ' +\
+            component.hashname
 
         text = str(soup)
 

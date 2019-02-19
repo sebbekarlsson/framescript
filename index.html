@@ -1,26 +1,35 @@
 
-<div id="component__base" style="
+        
+<div class="MTU1MDU3NTczOTMxNg" id="component__base" style="
         background-color: rgb(48, 48, 48);
         color: white;
         font-family: Sans-Serif;
         display: inline-block;
         text-align: center;
     ">
-<pre id="component__base__attribute__data"></pre>
+<pre class="MTU1MDU3NTczOTMxNg-data" element="data"></pre>
 <component name="btn_decrease">
-<button id="component__btn_decrease">Decrease</button>
+<button class="MTU1MDU3NTczOTk0MA" id="component__btn_decrease">Decrease</button>
 </component>
 <component name="btn_increase">
-<button id="component__btn_increase">Increase</button>
+<button class="MTU1MDU3NTczOTYxOQ" id="component__btn_increase">Increase</button>
 </component>
 </div>
 
-<script>
-var component__base = new function() {
+        <script>var component__base = new function() {
 
     var _this = this;
     _this.state = {};
 
+    this.elements = {}
+
+    this.elements['data'] = document.querySelector('.MTU1MDU3NTczOTMxNg-data');
+
+
+
+    this.getElement = function(name) {
+        return this.elements[name];
+    }
 
     _this.element = document.getElementById('component__base');
 
@@ -33,38 +42,45 @@ var component__base = new function() {
     var component__btn_increase = new function() {
 
 
+        this.getElement = function(name) {
+            return this.elements[name];
+        }
+
         _this.element = document.getElementById('component__btn_increase');
 
         _this.element.addEventListener('click', function(e) {
+            var _old_state = JSON.parse(JSON.stringify(_this.state));
 
             _this.state['data'] = _this.state['data'] + 1;;
-            var _keys = Object.keys(_this.state);
-            for (var i = 0; i < _keys.length; i++) {
-                var k = _keys[i];
-                var query = 'component__base__attribute__' + k;
-                var element = document.getElementById(query);
-                element.innerHTML = _this.state[k];
-            };
+            var _new_state = _this.state;
 
+            if (JSON.stringify(_old_state) != JSON.stringify(_new_state))
+                _this.stateChanged(_new_state);
         });
     }
     var component__btn_decrease = new function() {
 
 
+        this.getElement = function(name) {
+            return this.elements[name];
+        }
+
         _this.element = document.getElementById('component__btn_decrease');
 
         _this.element.addEventListener('click', function(e) {
+            var _old_state = JSON.parse(JSON.stringify(_this.state));
 
             _this.state['data'] = _this.state['data'] - 1;;
-            var _keys = Object.keys(_this.state);
-            for (var i = 0; i < _keys.length; i++) {
-                var k = _keys[i];
-                var query = 'component__base__attribute__' + k;
-                var element = document.getElementById(query);
-                element.innerHTML = _this.state[k];
-            };
+            var _new_state = _this.state;
 
+            if (JSON.stringify(_old_state) != JSON.stringify(_new_state))
+                _this.stateChanged(_new_state);
         });
     }
-}
-</script>
+    _this.stateChanged = function(state) {
+
+        _this.getElement('data').innerHTML = state['data'];
+
+    };
+}</script>
+    
