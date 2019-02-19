@@ -19,7 +19,8 @@ class Transpiler(object):
         self.out_js = ''
         self.out_html = ''
         self.pre = []
-        self.styles = []
+        self.styles = {}
+        self.components = {}
 
     def visit(self, node):
         _name = node.__class__.__name__
@@ -44,31 +45,11 @@ class Transpiler(object):
         return ''
 
     def finalize(self):
-        for c in self.pre:
-            soup = BeautifulSoup(self.out_html, 'html.parser')
-            el = soup.find('component', {'name': c['name']})
-            el.append(BeautifulSoup(
-                self.visit_render(c['render'], ret=True),
-                'html.parser'
-            ))
-            self.out_html = str(soup)
-
-        for s in self.styles:
-            soup = BeautifulSoup(self.out_html, 'html.parser')
-            el = soup.find('component', {'name': s['name']})
-
-            if not el:
-                el = soup.find(id='component__' + s['name'])
-            else:
-                el = el.find_all()[0]
-
-            el['style'] = self.visit_template_string(
-                s['style'].template_string)
-            self.out_html = str(soup)
-
         return self.out_html
 
     def visit_component(self, component):
+        self.components[component.name] = component
+
         rendered = COMPONENT_TEMPLATE.render(
             component=component,
             component_name=get_outer_component(component).name,
@@ -80,10 +61,10 @@ class Transpiler(object):
     def visit_compound(self, compound):
         out = ''
         for node in compound.ast_nodes:
-            output = self.visit(node)
-
             if node.__class__.__name__ != 'Render':
-                out += output
+                out += self.visit(node)
+            else:
+                self.visit(node)
 
         return out
 
@@ -98,7 +79,7 @@ class Transpiler(object):
         return template_string.value.replace('me.', '_this.')
 
     def visit_style(self, style):
-        self.styles.append(dict(name=style.component.name, style=style))
+        self.styles[style.component.name] = self.visit(style.template_string)
         return ''
 
     def visit_constructor(self, constructor):
@@ -112,32 +93,37 @@ class Transpiler(object):
             code=self.visit_template_string(state_changed.template_string)
         )
 
-    def visit_render(self, render, ret=False):
-        if render.component.component and not ret:
-            self.pre.append(dict(name=render.component.name, render=render))
-            return ''
-
+    def visit_render(self, render, ret=False, suffix=None):
         html = self.visit(render.template_string)
         soup = BeautifulSoup(html, 'html.parser')
         tags = soup.findAll()
-        component = render.component
+        render.component.render = render
+        outer_component = get_outer_component(render.component)
 
+        tags[0]['fs-id'] = render.component.hashname
+
+        if suffix is not None:
+            tags[0]['fs-id-suffix'] = str(suffix)
+
+        if render.component.name in self.styles:
+            tags[0]['style'] = self.styles[render.component.name]
+
+        index = 0
         for tag in tags:
-            element = tag.get('element')
+            if tag.name == 'component':
+                component_name = tag.get('cname')
+                wanted_component = self.components[component_name]
+                tag.append(BeautifulSoup(
+                    self.visit_render(wanted_component.render, ret=True, suffix=index),
+                    'html.parser'
+                ))
+                index += 1
+            elif tag.get('element'):
+                tag['fs-id'] = outer_component.hashname + '_' + tag.get('element')
 
-            if element:
-                tag['class'] = tag.get('class', ' ') + component.hashname\
-                    + '-' + element
+        html = str(soup)
 
-        tags[0]['id'] = 'component__' + component.name
-        tags[0]['class'] = tags[0].get('class', '') + ' ' +\
-            component.hashname
-
-        text = str(soup)
-
-        if ret:
-            return text
-
-        self.out_html += text
-
-        return text
+        if ret or render.component.component:
+            return html
+        else:
+            self.out_html += html

@@ -39,6 +39,6 @@ def run():
     open(args.output, 'w+').write('''
         {html}
         <script>{js}</script>
-    '''.format(html=minify_html(html), js=jsmin(js)))
+    '''.format(html=html, js=js))
     print(colored('Done writing {}'.format(args.output), 'green'))
     print('({} bytes written)'.format(total_bytes))

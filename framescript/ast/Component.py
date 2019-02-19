@@ -9,3 +9,6 @@ class Component(object):
         self.component = component
         self.hashname = get_random_hash().replace('=', '')
         self.elements = []
+
+    def get_component_elements(self):
+        return filter(lambda x: x.get('cname'), self.elements)

@@ -7,9 +7,4 @@ class Render(object):
         self.template_string = template_string
         self.component = component
         outer_comp = get_outer_component(self.component)
-
-        for t in filter(lambda x: x.get('element'), template_string.tags):
-            outer_comp.elements.append(dict(
-                name=t['element'],
-                classname=self.component.hashname + '-' + t['element']
-            ))
+        outer_comp.elements += self.template_string.tags

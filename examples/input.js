@@ -32,8 +32,8 @@ component[base] {
 
     render <%
         <div>
-            <component name="myinput"/>
-            <component name="view"/>
+            <component cname="myinput"/>
+            <component cname="view"/>
         </div>
     %>;
 };

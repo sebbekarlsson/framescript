@@ -38,8 +38,8 @@ component[base] {
     render <%
         <div>
             <pre element='data'></pre>
-            <component name='btn_decrease'/>
-            <component name='btn_increase'/>
+            <component cname='btn_decrease'/>
+            <component cname='btn_increase'/>
         </div>
     %>;
 };
