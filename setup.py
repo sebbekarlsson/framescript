@@ -6,9 +6,10 @@ setup(
     version='1.0.0',
     install_requires=[
         'termcolor',
-        'jsbeautifier',
         'bs4',
-        'jinja2'
+        'jinja2',
+        'jsmin',
+        'htmlmin'
     ],
     packages=find_packages(),
     entry_points={

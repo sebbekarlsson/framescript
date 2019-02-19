@@ -2,7 +2,8 @@ from framescript.Lexer import Lexer
 from framescript.Parser import Parser
 from framescript.Transpiler import Transpiler
 
-import jsbeautifier
+from jsmin import jsmin
+from htmlmin import minify as minify_html
 
 import argparse
 import sys
@@ -38,6 +39,6 @@ def run():
     open(args.output, 'w+').write('''
         {html}
         <script>{js}</script>
-    '''.format(html=html, js=jsbeautifier.beautify(js)))
+    '''.format(html=minify_html(html), js=jsmin(js)))
     print(colored('Done writing {}'.format(args.output), 'green'))
     print('({} bytes written)'.format(total_bytes))

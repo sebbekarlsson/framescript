@@ -14,4 +14,4 @@ var component__{{ component.name }} = new function() {
     _this.element = document.getElementById('component__{{ component.name }}');
 
     {{ component_body }}
-}
+};
