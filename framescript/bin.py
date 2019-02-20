@@ -17,6 +17,12 @@ def run():
         '--input', type=str, help='Filename to transpile', required=True)
     parser.add_argument(
         '--output', type=str, help='Output filename', required=True)
+    parser.add_argument(
+        '--minify',
+        type=bool,
+        help='If set, then Javascript and HTML will be minified',
+        required=False
+    )
     args = parser.parse_args()
 
     lexer = Lexer(open(args.input).read())
@@ -32,6 +38,12 @@ def run():
 
     print(colored('Generating HTML...', 'green'))
     html = transpiler.finalize()
+
+    if args.minify:
+        print('Minifying javascript...')
+        js = jsmin(js)
+        print('Minifying html...')
+        html = minify_html(html)
 
     total_bytes = sys.getsizeof(js + html)
 

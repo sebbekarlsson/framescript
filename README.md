@@ -60,6 +60,9 @@ component[base] {
 
 > The output is a `html` file that can be opened with your browser.
 
+> You can also have the output minified by running
+> the command with the `--minify` flag.
+
 ## Install
 > Clone down the repository and run:
 

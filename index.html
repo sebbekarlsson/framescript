@@ -1,113 +1,21 @@
 
-        
-<div fs-id="MTU1MDU4NTQ4ODkwOQ" style="
+         <div fs-id=MTU1MDY0NDc1ODgzOQ style="
         background-color: rgb(48, 48, 48);
         color: white;
         font-family: Sans-Serif;
         display: inline-block;
         text-align: center;
-    ">
-<pre element="data" fs-id="MTU1MDU4NTQ4ODkwOQ_data"></pre>
-<component cname="btn_decrease">
-<button fs-id="MTU1MDU4NTQ4ODQyMA" fs-id-suffix="0">Decrease</button>
-</component>
-<component cname="btn_increase">
-<button fs-id="MTU1MDU4NTQ4ODI4OQ" fs-id-suffix="1">Increase</button>
-</component>
-</div>
-
-        <script>var component__base = function(element) {
-    
-        var _this = this;
-        _this.state = {};
-
-        this.elements = {}
-        
-           this.elements[''] = document.querySelector('*[fs-id="MTU1MDU4NTQ4ODkwOQ_"]');
-        
-           this.elements[''] = document.querySelector('*[fs-id="MTU1MDU4NTQ4ODkwOQ_"]');
-        
-           this.elements[''] = document.querySelector('*[fs-id="MTU1MDU4NTQ4ODkwOQ_"]');
-        
-           this.elements['data'] = document.querySelector('*[fs-id="MTU1MDU4NTQ4ODkwOQ_data"]');
-        
-           this.elements[''] = document.querySelector('*[fs-id="MTU1MDU4NTQ4ODkwOQ_"]');
-        
-           this.elements[''] = document.querySelector('*[fs-id="MTU1MDU4NTQ4ODkwOQ_"]');
-        
-     
-
-    this.getElement = function(name) { return this.elements[name]; }
-
-    if (!element)
-        _this.element = document.querySelector('*[fs-id="MTU1MDU4NTQ4ODkwOQ"]');
-    else _this.element = element;
-
-    this.init = function() {
-    
-        _this.state['data'] = 0;
-    
-};
-this.init();var component__btn_increase = function(element) {
-     
-
-    this.getElement = function(name) { return this.elements[name]; }
-
-    if (!element)
-        _this.element = document.querySelector('*[fs-id="MTU1MDU4NTQ4ODI4OQ"]');
-    else _this.element = element;
-
-    _this.element.addEventListener('click', function(e) {
-    var _old_state = JSON.parse(JSON.stringify(_this.state));
-    
-            _this.state['data'] = _this.state['data'] + 1;
-        ;
-    var _new_state = _this.state;
-
-    if (typeof _this.stateChanged != 'undefined')
-        if (JSON.stringify(_old_state) != JSON.stringify(_new_state) && _this.stateChanged)
-            _this.stateChanged(_new_state);
-});
-
-
-    
-};
-window.component__btn_increase = component__btn_increase;var component__btn_decrease = function(element) {
-     
-
-    this.getElement = function(name) { return this.elements[name]; }
-
-    if (!element)
-        _this.element = document.querySelector('*[fs-id="MTU1MDU4NTQ4ODQyMA"]');
-    else _this.element = element;
-
-    _this.element.addEventListener('click', function(e) {
-    var _old_state = JSON.parse(JSON.stringify(_this.state));
-    
-            _this.state['data'] = _this.state['data'] - 1;
-        ;
-    var _new_state = _this.state;
-
-    if (typeof _this.stateChanged != 'undefined')
-        if (JSON.stringify(_old_state) != JSON.stringify(_new_state) && _this.stateChanged)
-            _this.stateChanged(_new_state);
-});
-
-
-    
-};
-window.component__btn_decrease = component__btn_decrease;_this.stateChanged = function(state) {
-    
-        _this.getElement('data').innerHTML = state['data'];    
-    
-};
-
-
-    
-        new window['component__btn_decrease'](document.querySelector('*[fs-id="MTU1MDU4NTQ4ODkwOQ"][fs-id-suffix="0"]'));
-    
-        new window['component__btn_increase'](document.querySelector('*[fs-id="MTU1MDU4NTQ4ODkwOQ"][fs-id-suffix="1"]'));
-    
-};
-window.component__base = component__base;</script>
+    "> <pre element=data fs-id=MTU1MDY0NDc1ODgzOQ_data></pre> <component cname=btn_decrease> <button fs-id=MTU1MDY0NDc1ODMxNg fs-id-suffix=0>Decrease</button> </component> <component cname=btn_increase> <button fs-id=MTU1MDY0NDc1ODQwMA fs-id-suffix=1>Increase</button> </component> </div> 
+        <script>var component__base=function(element){var _this=this;_this.state={};this.elements={}
+this.elements['data']=document.querySelector('*[fs-id="MTU1MDY0NDc1ODgzOQ_data"]');this.getElement=function(name){return this.elements[name];}
+if(!element)
+_this.element=document.querySelector('*[fs-id="MTU1MDY0NDc1ODgzOQ"]');else _this.element=element;this.init=function(){_this.state['data']=0;};this.init();var component__btn_increase=function(element){this.getElement=function(name){return this.elements[name];}
+if(!element)
+_this.element=document.querySelector('*[fs-id="MTU1MDY0NDc1ODQwMA"]');else _this.element=element;_this.element.addEventListener('click',function(e){var _old_state=JSON.parse(JSON.stringify(_this.state));_this.state['data']=_this.state['data']+1;;var _new_state=_this.state;if(typeof _this.stateChanged!='undefined')
+if(JSON.stringify(_old_state)!=JSON.stringify(_new_state)&&_this.stateChanged)
+_this.stateChanged(_new_state);});};window.component__btn_increase=component__btn_increase;var component__btn_decrease=function(element){this.getElement=function(name){return this.elements[name];}
+if(!element)
+_this.element=document.querySelector('*[fs-id="MTU1MDY0NDc1ODMxNg"]');else _this.element=element;_this.element.addEventListener('click',function(e){var _old_state=JSON.parse(JSON.stringify(_this.state));_this.state['data']=_this.state['data']-1;;var _new_state=_this.state;if(typeof _this.stateChanged!='undefined')
+if(JSON.stringify(_old_state)!=JSON.stringify(_new_state)&&_this.stateChanged)
+_this.stateChanged(_new_state);});};window.component__btn_decrease=component__btn_decrease;_this.stateChanged=function(state){_this.getElement('data').innerHTML=state['data'];};new window['component__btn_decrease'](document.querySelector('*[fs-id="MTU1MDY0NDc1ODgzOQ"][fs-id-suffix="0"]'));new window['component__btn_increase'](document.querySelector('*[fs-id="MTU1MDY0NDc1ODgzOQ"][fs-id-suffix="1"]'));};window.component__base=component__base;new component__base();</script>
     
