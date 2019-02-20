@@ -55,6 +55,12 @@ component[base] {
 > Becomes this:
 <img src='gif.gif'/>
 
+## Documentation
+* [Writing Components](doc/components.md)
+* [Styling Components](doc/styling_components.md)
+* [Writing Abstract Components](doc/abstract_components.md)
+* [Components Inside Components](doc/components_inside_components.md)
+
 ## Usage
 > To use it, simply run this command to transpile / compile:
 

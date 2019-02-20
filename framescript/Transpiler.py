@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from jinja2 import Template
 from framescript.utils import get_outer_component
+import framescript as fs
 
 
 COMPONENT_TEMPLATE = Template(open(
@@ -41,11 +42,19 @@ class Transpiler(object):
             return self.visit_template_string(node)
         elif _name == 'Render':
             return self.visit_render(node)
+        elif _name == 'Import':
+            return self.visit_import(node)
 
         return ''
 
     def finalize(self):
         return self.out_html
+
+    def visit_import(self, node):
+        print('Evaluating {}...'.format(node.import_string))
+        js, html = fs.bin.evaluate(node.import_string, transpiler=self)
+
+        return js
 
     def visit_component(self, component):
         self.components[component.name] = component
@@ -123,7 +132,7 @@ class Transpiler(object):
 
         html = str(soup)
 
-        if ret or render.component.component:
+        if ret or render.component.component or outer_component.abstract:
             return html
         else:
             self.out_html += html

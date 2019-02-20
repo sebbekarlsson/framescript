@@ -1,4 +1,5 @@
 var component__{{ component.name }} = function(element) {
+    console.log('{{ component.name }}');
     {% if not component.component %}
         var _this = this;
         _this.state = {};
@@ -32,6 +33,6 @@ var component__{{ component.name }} = function(element) {
 window.component__{{ component.name }} = component__{{ component.name }};
 
 // instantiate the root component
-{% if not component.component %}
+{% if not component.component and not component.abstract %}
     new component__{{ component.name }}();
 {% endif %}

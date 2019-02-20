@@ -1,5 +1,5 @@
 from framescript.Lexer import Lexer
-from framescript.Parser import Parser
+from framescript.Parser import Parser, UnexpectedTokenException
 from framescript.Transpiler import Transpiler
 
 from jsmin import jsmin
@@ -9,6 +9,22 @@ import argparse
 import sys
 
 from termcolor import colored
+
+
+def evaluate(filename, transpiler=None):
+    lexer = Lexer(open(filename).read(), filename)
+    parser = Parser(lexer)
+
+    print(colored('Creating AST tree...', 'green'))
+
+    tree = parser.parse()
+
+    print('AST tree is {} bytes.'.format(sys.getsizeof(tree)))
+
+    if not transpiler:
+        transpiler = Transpiler()
+
+    return transpiler.visit(tree), transpiler.finalize()
 
 
 def run():
@@ -25,19 +41,11 @@ def run():
     )
     args = parser.parse_args()
 
-    lexer = Lexer(open(args.input).read())
-    parser = Parser(lexer)
-    transpiler = Transpiler()
-
-    print(colored('Creating AST tree...', 'green'))
-    tree = parser.parse()
-    print('AST tree is {} bytes.'.format(sys.getsizeof(tree)))
-
-    print(colored('Generating Javascript...', 'green'))
-    js = transpiler.visit(tree)
-
-    print(colored('Generating HTML...', 'green'))
-    html = transpiler.finalize()
+    try:
+        js, html = evaluate(args.input)
+    except UnexpectedTokenException as e:
+        print(colored(str(e), 'red'))
+        return False
 
     if args.minify:
         print('Minifying javascript...')

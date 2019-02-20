@@ -1,11 +1,18 @@
 from framescript.Token import Token
 
 
+ID_MAP = {
+    'abstract': 'ABSTRACT'
+}
+
+
 class Lexer(object):
 
-    def __init__(self, text):
+    def __init__(self, text, filename):
         self.text = text
+        self.filename = filename
         self.pos = 0
+        self.line = -1
         self.current_char = self.text[self.pos]
 
     def good(self):
@@ -18,7 +25,8 @@ class Lexer(object):
                 self.skip_whitespace()
 
             if self.current_char.isalnum() and not self.current_char.isdigit():
-                return Token('ID', self.parse_id())
+                _id = self.parse_id()
+                return Token(ID_MAP[_id] if _id in ID_MAP else 'ID', _id)
 
             if self.current_char == '=':
                 token = Token('EQUALS', self.current_char)
@@ -115,6 +123,9 @@ class Lexer(object):
 
     def advance(self):
         if self.good():
+            if ord(self.current_char) == 10:
+                self.line += 1
+
             self.pos += 1
             self.current_char = self.text[self.pos]
 

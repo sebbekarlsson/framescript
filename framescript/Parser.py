@@ -5,6 +5,7 @@ from framescript.ast.Constructor import Constructor
 from framescript.ast.Component import Component
 from framescript.ast.Compound import Compound
 from framescript.ast.Render import Render
+from framescript.ast.Import import Import
 from framescript.ast.Style import Style
 
 
@@ -18,12 +19,16 @@ class Parser(object):
         self.lexer = lexer
         self.current_token = self.lexer.get_next_token()
 
-    def eat(self, token_type):
+    def eat(self, token_type, help=None):
         if token_type != self.current_token.type:
-            raise UnexpectedTokenException('expected {} but got {}'.format(
-                token_type,
-                self.current_token.type
-            ))
+            raise UnexpectedTokenException(
+                '[{}]: Line {}, expected {} but got {}'.format(
+                    self.lexer.filename,
+                    self.lexer.line,
+                    token_type,
+                    self.current_token.type
+                ) + (('\n' + help) if help else '')
+            )
         else:
             self.current_token = self.lexer.get_next_token()
 
@@ -34,7 +39,7 @@ class Parser(object):
         self.eat('ID')  # listen
         event_name = self.current_token.value
         self.eat('ID')  # name
-        self.eat('ID')  # as
+        self.eat('ID', help='Use: "listen <event> `as` <variable_name>"')  # as
         variable_name = self.current_token.value
         self.eat('ID')  # variable_name
         template_string = TemplateString(self.current_token.value)
@@ -54,6 +59,13 @@ class Parser(object):
 
         return Style(template_string=template_string, component=component)
 
+    def parse_import(self, component):
+        self.eat('ID')  # import
+        import_string = self.current_token.value
+        self.eat('STRING')  # string
+
+        return Import(import_string)
+
     def parse_constructor(self, component):
         self.eat('ID')  # constructor
         template_string = TemplateString(self.current_token.value)
@@ -64,7 +76,7 @@ class Parser(object):
 
     def parse_state_changed(self, component):
         self.eat('ID')  # stateChanged
-        self.eat('ID')  # as
+        self.eat('ID', help='Use: "stateChanged `as` <variable_name>"')  # as
         variable_name = self.current_token.value
         self.eat('ID')  # name
         template_string = TemplateString(self.current_token.value)
@@ -91,6 +103,11 @@ class Parser(object):
 
         nodes.append(self.parse_statement(component))
 
+        if not self.current_token.type == 'SEMI':
+            raise UnexpectedTokenException('[{}]: Line {}, Missing `;`'.format(
+                self.lexer.filename,
+                self.lexer.line))
+
         while self.current_token.type == 'SEMI':
             self.eat('SEMI')
             statement = self.parse_statement(component)
@@ -111,16 +128,23 @@ class Parser(object):
                 return self.parse_state_changed(component)
             elif self.current_token.value == 'component':
                 return self.parse_component(component)
+            elif self.current_token.value == 'import':
+                return self.parse_import(component)
             else:
                 return self.parse_render(component)
 
     def parse_component(self, component):
-        component = Component(None, None, component)
+        component = Component(None, None, False, component)
         self.eat('ID')
         self.eat('LBRACKET')
         component.name = self.current_token.value
         self.eat('ID')
         self.eat('RBRACKET')
+
+        if self.current_token.type == 'ABSTRACT':
+            component.abstract = True
+            self.eat('ABSTRACT')
+
         self.eat('LBRACE')
         component.compound = self.parse_compound(component)
         self.eat('RBRACE')

@@ -20,7 +20,7 @@ component[base] {
 
     component[view] {
         stateChanged as state <%
-            me.getElement('text').innerHTML = state['text']
+            me.getElement('text').innerHTML = state['text'];
         %>;
 
         render <%
