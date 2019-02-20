@@ -1,7 +1,7 @@
 <div style='width: 100%; text-align: center;' align='center'><img src='framescript.png'/></div>
 
 # Framescript
-> A language that compiles to javascript with a built-in react-like framework.
+> A language that compiles to Javascript and HTML with a built-in react-like framework.
 
 ## Example
 > The following code:
