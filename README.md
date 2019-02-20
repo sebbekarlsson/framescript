@@ -71,3 +71,5 @@ component[base] {
     python setup.py install
 
 > Now, you might have to run that with `sudo`.
+
+> _Yes, the transpiler is written in Python so it does require you to have Python._
